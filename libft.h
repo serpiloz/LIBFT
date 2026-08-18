@@ -6,14 +6,13 @@
 /*   By: serozdem <serozdem@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/18 14:51:52 by serozdem          #+#    #+#             */
-/*   Updated: 2026/08/18 19:46:58 by serozdem         ###   ########.fr       */
+/*   Updated: 2026/08/18 21:39:41 by serozdem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include <stddef.h>
 # include <stdlib.h>
 # include <unistd.h>
 

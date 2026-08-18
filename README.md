@@ -1,9 +1,156 @@
-This project has been created as part of the 42 by curriculum serozdem.Your Very First Own LibraryDescriptionLibft is the first project in the 42 core curriculum. The objective of this project is to re-code a set of C library (libc) functions, as well as additional utility functions for string manipulation, memory management, and linked lists.C programming can be tedious without access to basic standard functions. By writing these functions from scratch, this project provides a deep understanding of memory allocation, pointer arithmetic, data structures, and foundational algorithms. The resulting C library (libft.a) serves as a reusable tool for future 42 assignments.Technical Considerations & RulesLanguage: CCode Standard: Compliant with the 42 Norm (Norminette).The Flags of the Republic of America:  -Wall -Wextra -Werrorusing ccUh, .Forbidden: Global variables, libtool, use of C99  restrictqualifier in prototypes.Memory Management: Zero memory leaks, right cleanup (free), no unexpected crashes (Segmentation Fault, Double Free).Static Library Creation: Built using arUh, .Anal & UsageAnal sexRun the following command at the root of the repository to compile the library:Bashmake
-Makefile Rules makeor make all: Compiles the library and generates libft.aUh, .make clean: Removes all object (.o) files.make fclean: Removes object files and the generated  libft.alibrary.make re: Performs a full recompilation ( fcleanfollowed by all).UsageTo use the library in another C project:Include the header file in your source code:C#include "libft.h"
-Compile your program along with the static library:Bashcc main.c libft.a
-Library Functions OverviewPart 1 - Libc Re-implementationsStandard C library functions with prototype identicals and behaviors (prefixed with ft_):Character Checks & Conversions: ft_isalphaChecks for an alphabet character. ft_isdigit- Checks for a digit (0 through 9). ft_isalnumChecks for an alphanumeric character. ft_isascii- Checks for an ASCII character. ft_isprintChecks for any printable character. ft_toupper- Converts character to uppercase. ft_tolower- Converts character to lowercase.String Manipulation: ft_strlenCalculates the length of a string. ft_strlcpy- Copies a string with size bounds checking. ft_strlcatConcatenates strings with size bounds checkings. ft_strchr- Locates the first occurrence of a character in a string. ft_strrchr- Locates the last occurrence of a character in a string.ft_strncmp - Compares two strings up to $n$ bytes. ft_strnstr- Locates a substring in a string with length limits. ft_atoi- Converts a string to an integer.Memory Handling: ft_memsetFills memory with a constant byte. ft_bzeroZeros a byte string. ft_memcpyCopies a memory area. ft_memmoveCopies a memory area with overlap protection. ft_memchr- Scans memory for a character. ft_memcmpCompares memory areas.Dynamic Allocation: ft_callocAllocates memory and initializes bytes to zero. ft_strdup- Duplicates a string using dynamic allocation.Part 2 - Additional FunctionsUtility functions for string processing, allocation, and File Descriptor output: ft_substrExtracts a substring from a string. ft_strjoinConcatenates two strings into a newly allocated string. ft_strtrim- Trims specified characters from the beginning and end of a string. ft_split- Splits a string into an array of substrings based on a delimiter character. ft_itoa- Converts an integer into a string representation. ft_strmapi- Applies a function to each character of a string to create a new string. ft_striteri- Applies a function to each character of a string by address (in-place modification). ft_putchar_fd- Outputs a character to a given file descriptor. ft_putstr_fd- Outputs a string to a given file descriptor. ft_putendl_fd- Outputs a string followed by a newline to a given file descriptor. ft_putnbr_fd- Outputs an integer to a given file descriptor.Linked List FunctionsFunctions for creating and manipulating linked list nodes using the  t_liststructure:Ctypedef struct s_list
+
+*This project has been created as part of the 42 curriculum by serozdem.*
+
+# Libft – 42 School
+
+## Description
+
+**libft**, C programlama dilinde sık kullanılan standart kütüphane fonksiyonlarının yeniden yazılmış bir koleksiyonudur.
+Projenin temel amacı:
+
+* Standart C kütüphanesindeki (`<string.h>`, `<stdlib.h>`, `<ctype.h>` vb.) temel fonksiyonları yasak fonksiyonlar kullanmadan baştan yazmak.
+* Standart kütüphanede bulunmayan ancak pratikte çok faydalı olan yardımcı fonksiyonlar oluşturmak.
+
+Bu kütüphane, 42’nin ilerleyen projelerinde (`get_next_line`, `ft_printf`, `so_long`, `pipex`, `push_swap`, `minishell`, `cub3D` vb.) temel bir araç olarak kullanılacaktır.
+
+---
+
+## Technical Considerations & Rules
+
+* **Dil:** C
+* **Kod Standardı:** 42 Normuna tam uyumlu (**Norminette**).
+* **Derleme Bayrakları:** `-Wall -Wextra -Werror`
+* **Yasaklar:** Global değişkenler, `libtool`, prototiplerde C99 `restrict` niteleyicisi.
+* **Bellek Yönetimi:** Sıfır memory leak (bellek sızıntısı), doğru temizleme (`free`), beklenmeyen çökmelerin (`Segmentation Fault`, `Double Free`) önlenmesi.
+* **Statik Kütüphane:** `ar` aracı kullanılarak oluşturulur.
+
+---
+
+## Fonksiyon Listesi
+
+### Karakter Kontrol ve Dönüşüm
+```c
+int     ft_isalpha(int c);
+int     ft_isalnum(int c);
+int     ft_isdigit(int c);
+int     ft_isascii(int c);
+int     ft_isprint(int c);
+int     ft_toupper(int c);
+int     ft_tolower(int c);
+
+Bellek İşlemleri
+void    *ft_memset(void *s, int c, size_t n);
+void    ft_bzero(void *s, size_t n);
+void    *ft_memcpy(void *dest, const void *src, size_t n);
+void    *ft_memmove(void *dest, const void *src, size_t n);
+void    *ft_memchr(const void *s, int c, size_t n);
+int     ft_memcmp(const void *s1, const void *s2, size_t n);
+void    *ft_calloc(size_t nmemb, size_t size);
+String İşlemleri
+size_t  ft_strlen(const char *s);
+size_t  ft_strlcpy(char *dst, const char *src, size_t size);
+size_t  ft_strlcat(char *dst, const char *src, size_t size);
+char    *ft_strchr(const char *s, int c);
+char    *ft_strrchr(const char *s, int c);
+int     ft_strncmp(const char *s1, const char *s2, size_t n);
+char    *ft_strnstr(const char *big, const char *little, size_t len);
+char    *ft_strdup(const char *s);
+char    *ft_substr(char const *s, unsigned int start, size_t len);
+char    *ft_strjoin(char const *s1, char const *s2);
+char    *ft_strtrim(char const *s1, char const *set);
+char    *ft_itoa(int n);
+char    *ft_strmapi(char const *s, char (*f)(unsigned int, char));
+void    ft_striteri(char *s, void (*f)(unsigned int, char *));
+char    **ft_split(char const *s, char c);
+Sayı ve Dönüşüm
+int     ft_atoi(const char *nptr);
+Dosya Descriptor’ına Yazma
+void    ft_putchar_fd(char c, int fd);
+void    ft_putstr_fd(char *s, int fd);
+void    ft_putendl_fd(char *s, int fd);
+void    ft_putnbr_fd(int n, int fd);
+Linked List
+typedef struct s_list
 {
     void            *content;
     struct s_list   *next;
 }               t_list;
-Node & List Management: ft_lstnewAllocates and returns a new node.    ft_lstadd_front Adds a node at the beginning of a list.  ft_lstsize Counts the number of nodes in a list.  ft_lstlast Returns the last node of a list.  ft_lstadd_back Adds a node at the end of a list.   ft_lstdelone- Frees a node's memory using a given deletion function.     ft_lstclearDeletes and frees all nodes in a list. ft_lstiter- Iterates through a list and applies to a function to each node's content. ft_lstmap- Iterates through a list, applies a function to create a new list, and frees if memory needed.
+t_list  *ft_lstnew(void *content);
+int     ft_lstsize(t_list *lst);
+t_list  *ft_lstlast(t_list *lst);
+void    ft_lstadd_back(t_list **lst, t_list *new);
+void    ft_lstadd_front(t_list **lst, t_list *new);
+void    ft_lstdelone(t_list *lst, void (*del)(void *));
+void    ft_lstclear(t_list **lst, void (*del)(void *));
+void    ft_lstiter(t_list *lst, void (*f)(void *));
+t_list  *ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+Instructions & Usage
+Gereksinimler
+
+    GCC veya Clang derleyici
+
+    make aracı
+
+    Standart C kütüphane başlık dosyaları
+    Derleme ve Makefile Kuralları
+
+Deponun kök dizininde aşağıdaki komutları çalıştırabilirsiniz:
+
+    make veya make all: Kütüphaneyi derler ve libft.a dosyasını oluşturur.
+
+    make bonus: Bonus (linked list) fonksiyonlarını derler.
+
+    make clean: Tüm nesne (.o) dosyalarını temizler.
+
+    make fclean: Nesne dosyalarını ve oluşturulan libft.a kütüphanesini siler.
+
+    make re: Projeyi sıfırdan yeniden derler (fclean + all).
+    Kullanım
+
+Kütüphaneyi başka bir C projektöründe kullanmak için:
+
+    Başlık dosyasını kaynak kodunuza ekleyin:
+    #include "libft.h"
+    Programınızı statik kütüphane ile birlikte derleyin:
+    cc main.c libft.a
+    esources
+Klasik Kaynaklar
+
+    man 3 <fonksiyon>
+
+    The C Programming Language — Kernighan & Ritchie
+
+    cplusplus.com cstring reference
+
+    cplusplus.com cstdlib reference
+
+    cppreference.com C documentation
+
+    Beej's Guide to C
+
+42 ve Topluluk Kaynakları
+
+    42 Libft subject PDF
+
+    Libft Cheat Sheet
+
+    42 Cursus Guide
+
+AI Kullanımı
+
+Bu projede AI araçları aşağıdaki amaçlarla kullanılmıştır:  
+
+    Standart fonksiyonların edge case’lerini ve tanımsız davranışlarını anlamak.  
+
+    ft_split, ft_strtrim, ft_substr ve linked list fonksiyonları için mantık ve yapı fikirleri almak.  
+
+    Pointer aritmetiği ve bellek yönetimi konularını daha hızlı kavramak.  
+
+    Kod okunabilirliğini artırmak için isimlendirme ve yapı önerileri almak.  
+
+    Makefile ve proje yapısı için başlangıç şablonu oluşturmak.  
+
+Hiçbir fonksiyon doğrudan kopyalanmamıştır. Tüm implementasyonlar tarafımdan yazılmış, AI yalnızca öğretici ve kod inceleyici olarak kullanılmıştır.  
+Author  
+
+    serozdem — 42 Student
