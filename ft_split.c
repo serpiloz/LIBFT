@@ -51,30 +51,27 @@ char	**ft_split(char const *s, char c)
 {
 	char	**index;
 	size_t	i;
-	size_t	j;
-	size_t	len;
 
 	if (!s)
 		return (NULL);
-	index = (char **)malloc(sizeof(char *) * (word_count(s, c) + 1));
+	index = malloc(sizeof(char *) * (word_count(s, c) + 1));
 	if (!index)
 		return (NULL);
 	i = 0;
-	j = 0;
-	while (s[i] != '\0')
+	while (*s)
 	{
-		if (s[i] != c)
+		while (*s == c)
+			s++;
+		if (*s != '\0')
 		{
-			len = word_len(&s[i], c);
-			index[j] = ft_substr(s, i, len);
-			if (!index[j])
-				return (free_all(index, j));
-			i += len;
-			j++;
-		}
-		else
+			index[i] = ft_substr(s, 0, word_len(s, c));
+			if (!index[i])
+				return (free_all(index, i));
 			i++;
+			s += word_len(s, c);
+		}
 	}
-	index[j] = NULL;
+	index[i] = NULL;
 	return (index);
 }
+

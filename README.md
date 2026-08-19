@@ -1,156 +1,70 @@
-
 *This project has been created as part of the 42 curriculum by serozdem.*
 
-# Libft – 42 School
+# Libft
 
 ## Description
 
-**libft**, C programlama dilinde sık kullanılan standart kütüphane fonksiyonlarının yeniden yazılmış bir koleksiyonudur.
-Projenin temel amacı:
+This project consists of recoding a set of functions from the C
+standard library, plus some additional utility functions and a linked
+list library. The goal was to understand how these functions work
+internally by reimplementing them myself, and to build a library that
+will be useful for my future 42 projects.
 
-* Standart C kütüphanesindeki (`<string.h>`, `<stdlib.h>`, `<ctype.h>` vb.) temel fonksiyonları yasak fonksiyonlar kullanmadan baştan yazmak.
-* Standart kütüphanede bulunmayan ancak pratikte çok faydalı olan yardımcı fonksiyonlar oluşturmak.
+Libft is made of three parts:
 
-Bu kütüphane, 42’nin ilerleyen projelerinde (`get_next_line`, `ft_printf`, `so_long`, `pipex`, `push_swap`, `minishell`, `cub3D` vb.) temel bir araç olarak kullanılacaktır.
+- **Part 1 - Libc functions:** reimplementations of standard libc
+  functions such as `ft_strlen`, `ft_memcpy`, `ft_memmove`,
+  `ft_strlcpy`, `ft_strlcat`, `ft_atoi`, `ft_calloc`, `ft_strdup`, etc.
+- **Part 2 - Additional functions:** functions that don't exist in the
+  libc, or exist in a different form, such as `ft_split`, `ft_strjoin`,
+  `ft_strtrim`, `ft_itoa`, `ft_strmapi`, `ft_striteri`, and the
+  `_fd` functions (`ft_putchar_fd`, `ft_putstr_fd`, `ft_putendl_fd`,
+  `ft_putnbr_fd`).
+- **Part 3 - Linked list:** a small linked list library built around
+  the `t_list` structure, with functions like `ft_lstnew`,
+  `ft_lstadd_front`, `ft_lstadd_back`, `ft_lstsize`, `ft_lstlast`,
+  `ft_lstdelone`, `ft_lstclear`, `ft_lstiter`, and `ft_lstmap`.
 
----
+## Instructions
 
-## Technical Considerations & Rules
+```bash
+make        # to create libft.a
+make clean  # to delete .o files
+make fclean # to delete .o files and libft.a
+make re     # fclean + make
+```
 
-* **Dil:** C
-* **Kod Standardı:** 42 Normuna tam uyumlu (**Norminette**).
-* **Derleme Bayrakları:** `-Wall -Wextra -Werror`
-* **Yasaklar:** Global değişkenler, `libtool`, prototiplerde C99 `restrict` niteleyicisi.
-* **Bellek Yönetimi:** Sıfır memory leak (bellek sızıntısı), doğru temizleme (`free`), beklenmeyen çökmelerin (`Segmentation Fault`, `Double Free`) önlenmesi.
-* **Statik Kütüphane:** `ar` aracı kullanılarak oluşturulur.
+To use the library in another project:
 
----
+First create the library:
+```bash
+make
+```
 
-## Fonksiyon Listesi
-
-### Karakter Kontrol ve Dönüşüm
+Include the header in your file:
 ```c
-int     ft_isalpha(int c);
-int     ft_isalnum(int c);
-int     ft_isdigit(int c);
-int     ft_isascii(int c);
-int     ft_isprint(int c);
-int     ft_toupper(int c);
-int     ft_tolower(int c);
+#include "libft.h"
+```
 
-Bellek İşlemleri
-void    *ft_memset(void *s, int c, size_t n);
-void    ft_bzero(void *s, size_t n);
-void    *ft_memcpy(void *dest, const void *src, size_t n);
-void    *ft_memmove(void *dest, const void *src, size_t n);
-void    *ft_memchr(const void *s, int c, size_t n);
-int     ft_memcmp(const void *s1, const void *s2, size_t n);
-void    *ft_calloc(size_t nmemb, size_t size);
-String İşlemleri
-size_t  ft_strlen(const char *s);
-size_t  ft_strlcpy(char *dst, const char *src, size_t size);
-size_t  ft_strlcat(char *dst, const char *src, size_t size);
-char    *ft_strchr(const char *s, int c);
-char    *ft_strrchr(const char *s, int c);
-int     ft_strncmp(const char *s1, const char *s2, size_t n);
-char    *ft_strnstr(const char *big, const char *little, size_t len);
-char    *ft_strdup(const char *s);
-char    *ft_substr(char const *s, unsigned int start, size_t len);
-char    *ft_strjoin(char const *s1, char const *s2);
-char    *ft_strtrim(char const *s1, char const *set);
-char    *ft_itoa(int n);
-char    *ft_strmapi(char const *s, char (*f)(unsigned int, char));
-void    ft_striteri(char *s, void (*f)(unsigned int, char *));
-char    **ft_split(char const *s, char c);
-Sayı ve Dönüşüm
-int     ft_atoi(const char *nptr);
-Dosya Descriptor’ına Yazma
-void    ft_putchar_fd(char c, int fd);
-void    ft_putstr_fd(char *s, int fd);
-void    ft_putendl_fd(char *s, int fd);
-void    ft_putnbr_fd(int n, int fd);
-Linked List
-typedef struct s_list
-{
-    void            *content;
-    struct s_list   *next;
-}               t_list;
-t_list  *ft_lstnew(void *content);
-int     ft_lstsize(t_list *lst);
-t_list  *ft_lstlast(t_list *lst);
-void    ft_lstadd_back(t_list **lst, t_list *new);
-void    ft_lstadd_front(t_list **lst, t_list *new);
-void    ft_lstdelone(t_list *lst, void (*del)(void *));
-void    ft_lstclear(t_list **lst, void (*del)(void *));
-void    ft_lstiter(t_list *lst, void (*f)(void *));
-t_list  *ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
-Instructions & Usage
-Gereksinimler
+Compile your file:
+```bash
+cc file.c libft.a
+```
 
-    GCC veya Clang derleyici
+## Resources
 
-    make aracı
+- C man pages (to check the exact behaviour of the original functions,
+  like `strlen`, `memcpy`, `calloc`, etc.)
+- 42 subject PDF
+- 42 norm PDF
 
-    Standart C kütüphane başlık dosyaları
-    Derleme ve Makefile Kuralları
-
-Deponun kök dizininde aşağıdaki komutları çalıştırabilirsiniz:
-
-    make veya make all: Kütüphaneyi derler ve libft.a dosyasını oluşturur.
-
-    make bonus: Bonus (linked list) fonksiyonlarını derler.
-
-    make clean: Tüm nesne (.o) dosyalarını temizler.
-
-    make fclean: Nesne dosyalarını ve oluşturulan libft.a kütüphanesini siler.
-
-    make re: Projeyi sıfırdan yeniden derler (fclean + all).
-    Kullanım
-
-Kütüphaneyi başka bir C projektöründe kullanmak için:
-
-    Başlık dosyasını kaynak kodunuza ekleyin:
-    #include "libft.h"
-    Programınızı statik kütüphane ile birlikte derleyin:
-    cc main.c libft.a
-    esources
-Klasik Kaynaklar
-
-    man 3 <fonksiyon>
-
-    The C Programming Language — Kernighan & Ritchie
-
-    cplusplus.com cstring reference
-
-    cplusplus.com cstdlib reference
-
-    cppreference.com C documentation
-
-    Beej's Guide to C
-
-42 ve Topluluk Kaynakları
-
-    42 Libft subject PDF
-
-    Libft Cheat Sheet
-
-    42 Cursus Guide
-
-AI Kullanımı
-
-Bu projede AI araçları aşağıdaki amaçlarla kullanılmıştır:  
-
-    Standart fonksiyonların edge case’lerini ve tanımsız davranışlarını anlamak.  
-
-    ft_split, ft_strtrim, ft_substr ve linked list fonksiyonları için mantık ve yapı fikirleri almak.  
-
-    Pointer aritmetiği ve bellek yönetimi konularını daha hızlı kavramak.  
-
-    Kod okunabilirliğini artırmak için isimlendirme ve yapı önerileri almak.  
-
-    Makefile ve proje yapısı için başlangıç şablonu oluşturmak.  
-
-Hiçbir fonksiyon doğrudan kopyalanmamıştır. Tüm implementasyonlar tarafımdan yazılmış, AI yalnızca öğretici ve kod inceleyici olarak kullanılmıştır.  
-Author  
-
-    serozdem — 42 Student
+**AI usage:** I wrote the functions myself, and used AI mainly as a
+support tool along the way. When I got stuck on a compiler error, I
+asked AI to help me understand what the error meant and where it was
+coming from, without asking for the fix directly. For the memory
+functions (`ft_memcpy`, `ft_memmove`, `ft_calloc`, etc.), I used AI to
+help me understand tricky edge cases, like why `memmove` needs to
+handle overlapping memory differently from `memcpy`. Whenever I didn't
+understand a part of the subject, I asked AI to explain it to me in
+simpler terms before writing any code for it. Once my code was done, I
+used AI for help writing this README.
